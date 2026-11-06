@@ -1,0 +1,26 @@
+﻿@{
+    var errors = ViewData.ModelState
+        .Where(entry => entry.Value?.Errors.Count > 0)
+        .SelectMany(entry => entry.Value!.Errors)
+        .Select(error => error.ErrorMessage)
+        .Where(message => !string.IsNullOrWhiteSpace(message))
+        .Distinct()
+        .ToList();
+}
+
+@* Окно сообщения об ошибках заполнения формы. *@
+@if (errors.Count > 0)
+{
+    <div class="aroma-alert aroma-alert--error" role="alert">
+        <span class="aroma-alert__icon" aria-hidden="true">⚠</span>
+        <div class="aroma-alert__body">
+            <strong class="aroma-alert__title">Проверьте заполнение формы</strong>
+            <ul class="aroma-alert__list">
+                @foreach (var error in errors)
+                {
+                    <li>@error</li>
+                }
+            </ul>
+        </div>
+    </div>
+}

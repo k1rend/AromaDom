@@ -1,0 +1,22 @@
+﻿@* Сообщения об успешных действиях и ошибках с заголовком и пиктограммой. *@
+@if (TempData["SuccessMessage"] is string successMessage)
+{
+    <div class="aroma-alert aroma-alert--success" role="alert">
+        <span class="aroma-alert__icon" aria-hidden="true">✔</span>
+        <div class="aroma-alert__body">
+            <strong class="aroma-alert__title">Успешно</strong>
+            <p class="aroma-alert__text">@successMessage</p>
+        </div>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] is string errorMessage)
+{
+    <div class="aroma-alert aroma-alert--error" role="alert">
+        <span class="aroma-alert__icon" aria-hidden="true">⚠</span>
+        <div class="aroma-alert__body">
+            <strong class="aroma-alert__title">Ошибка</strong>
+            <p class="aroma-alert__text">@errorMessage</p>
+        </div>
+    </div>
+}

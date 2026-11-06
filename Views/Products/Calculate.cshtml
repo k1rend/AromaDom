@@ -1,0 +1,92 @@
+﻿@model AromaDom.ViewModels.CalculationViewModel
+
+@{
+    ViewData["Title"] = "Расчёт количества продукции";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Расчёт количества продукции</h1>
+        <p class="page-subtitle">
+            Расчёт выполняется с учётом коэффициента типа продукции и процента потерь сырья.
+        </p>
+    </div>
+
+    <a asp-controller="Materials" asp-action="Index" class="btn btn--outline">
+        ← Назад к материалам
+    </a>
+</div>
+
+@if (Model.Result is int productsCount && productsCount >= 0)
+{
+    <div class="result-panel" role="status">
+        <span class="result-panel__icon" aria-hidden="true">✔</span>
+        <div>
+            <strong class="result-panel__title">
+                Из @Model.RawQuantity ед. сырья можно получить @productsCount ед. продукции
+            </strong>
+            <p class="result-panel__text">
+                Тип продукции: «@Model.ProductTypeName»; тип материала: «@Model.MaterialTypeName».
+                Количество уменьшено на процент потерь сырья, дробная часть отброшена.
+            </p>
+        </div>
+    </div>
+}
+
+<div class="form-card">
+    <form asp-action="Calculate" method="post">
+        <partial name="_ValidationSummary" />
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label asp-for="ProductTypeId" class="form-label"></label>
+                <select asp-for="ProductTypeId"
+                        asp-items="Model.ProductTypes"
+                        class="form-control">
+                    <option value="">— выберите тип продукции —</option>
+                </select>
+                <span asp-validation-for="ProductTypeId" class="field-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MaterialTypeId" class="form-label"></label>
+                <select asp-for="MaterialTypeId"
+                        asp-items="Model.MaterialTypes"
+                        class="form-control">
+                    <option value="">— выберите тип материала —</option>
+                </select>
+                <span asp-validation-for="MaterialTypeId" class="field-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="RawQuantity" class="form-label"></label>
+                <input asp-for="RawQuantity" type="number" min="1" step="1" class="form-control" />
+                <p class="field-hint">Количество сырья — целое положительное число.</p>
+                <span asp-validation-for="RawQuantity" class="field-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Parameter1" class="form-label"></label>
+                <input asp-for="Parameter1" type="number" min="0.000001" step="0.01" class="form-control" />
+                <p class="field-hint">Положительное число, например 2.5.</p>
+                <span asp-validation-for="Parameter1" class="field-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Parameter2" class="form-label"></label>
+                <input asp-for="Parameter2" type="number" min="0.000001" step="0.01" class="form-control" />
+                <p class="field-hint">Положительное число, например 3.5.</p>
+                <span asp-validation-for="Parameter2" class="field-error"></span>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn--accent">Рассчитать</button>
+            <a asp-controller="Materials" asp-action="Index" class="btn btn--outline">Отмена</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

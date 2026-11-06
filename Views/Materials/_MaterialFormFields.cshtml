@@ -1,0 +1,55 @@
+﻿@model AromaDom.ViewModels.MaterialEditViewModel
+
+<div class="form-grid">
+    <div class="form-group">
+        <label asp-for="MaterialTypeId" class="form-label"></label>
+        <select asp-for="MaterialTypeId"
+                asp-items="Model.MaterialTypes"
+                class="form-control">
+            <option value="">— выберите тип материала —</option>
+        </select>
+        <span asp-validation-for="MaterialTypeId" class="field-error"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" autocomplete="off" />
+        <p class="field-hint">Наименование должно быть уникальным, например «Воск соевый».</p>
+        <span asp-validation-for="Name" class="field-error"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Price" class="form-label"></label>
+        <input asp-for="Price" type="number" min="0" step="0.01" class="form-control" />
+        <p class="field-hint">Цена за единицу в рублях, точность — до сотых, не может быть отрицательной.</p>
+        <span asp-validation-for="Price" class="field-error"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Unit" class="form-label"></label>
+        <input asp-for="Unit" class="form-control" placeholder="кг, г, шт, л" autocomplete="off" />
+        <p class="field-hint">Краткое обозначение единицы измерения: кг, г, шт, л.</p>
+        <span asp-validation-for="Unit" class="field-error"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PackageQuantity" class="form-label"></label>
+        <input asp-for="PackageQuantity" type="number" min="0.001" step="0.001" class="form-control" />
+        <p class="field-hint">Количество материала в одной упаковке, должно быть больше нуля.</p>
+        <span asp-validation-for="PackageQuantity" class="field-error"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StockQuantity" class="form-label"></label>
+        <input asp-for="StockQuantity" type="number" min="0" step="0.001" class="form-control" />
+        <p class="field-hint">Текущий остаток на складе, не может быть отрицательным.</p>
+        <span asp-validation-for="StockQuantity" class="field-error"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="MinQuantity" class="form-label"></label>
+        <input asp-for="MinQuantity" type="number" min="0" step="0.001" class="form-control" />
+        <p class="field-hint">Неснижаемый остаток для своевременной закупки, не может быть отрицательным.</p>
+        <span asp-validation-for="MinQuantity" class="field-error"></span>
+    </div>
+</div>

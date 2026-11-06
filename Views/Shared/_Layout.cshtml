@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] — Арома Дом</title>
+
+    @* Иконка приложения из ресурсов проекта. *@
+    <link rel="icon" type="image/svg+xml" href="~/images/favicon.svg" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="app-header">
+        <div class="container app-header__inner">
+            <a class="brand" asp-controller="Materials" asp-action="Index">
+                <img class="brand__logo" src="~/images/logo.svg"
+                     alt="Логотип компании «Арома Дом»" />
+                <span class="brand__text">
+                    <span class="brand__name">Арома Дом</span>
+                    <span class="brand__subtitle">Учёт материалов</span>
+                </span>
+            </a>
+
+            <nav class="app-nav" aria-label="Основная навигация">
+                <a class="app-nav__link" asp-controller="Materials" asp-action="Index">
+                    Материалы
+                </a>
+                <a class="app-nav__link" asp-controller="Products" asp-action="Calculate">
+                    Расчёт продукции
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container app-main">
+        <partial name="_Alerts" />
+        @RenderBody()
+    </main>
+
+    <footer class="app-footer">
+        <div class="container">
+            © 2026 Арома Дом — учёт материалов для производства декоративных ароматических свечей
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

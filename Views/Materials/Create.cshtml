@@ -1,0 +1,32 @@
+﻿@model AromaDom.ViewModels.MaterialEditViewModel
+
+@{
+    ViewData["Title"] = "Добавление материала";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Добавление материала</h1>
+        <p class="page-subtitle">
+            Заполните поля формы. Поля, отмеченные звёздочкой, обязательны для заполнения.
+        </p>
+    </div>
+
+    <a asp-action="Index" class="btn btn--outline">← Назад к списку</a>
+</div>
+
+<div class="form-card">
+    <form asp-action="Create" method="post">
+        <partial name="_ValidationSummary" />
+        <partial name="_MaterialFormFields" model="Model" />
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn--accent">Сохранить материал</button>
+            <a asp-action="Index" class="btn btn--outline">Отмена</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

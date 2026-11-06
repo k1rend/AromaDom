@@ -1,0 +1,86 @@
+﻿@model List<AromaDom.ViewModels.MaterialViewModel>
+
+@{
+    ViewData["Title"] = "Материалы";
+}
+
+<section class="page-hero">
+    @* Логотип компании на главной форме. *@
+    <img class="page-hero__logo" src="~/images/logo.svg"
+         alt="Логотип компании «Арома Дом»" />
+
+    <div class="page-hero__text">
+        <h1 class="page-title">Материалы</h1>
+        <p class="page-subtitle">
+            Учёт сырья и расходных материалов для производства декоративных свечей
+        </p>
+    </div>
+
+    <a asp-action="Create" class="btn btn--accent">+ Добавить материал</a>
+</section>
+
+@if (Model.Count == 0)
+{
+    <section class="empty-state">
+        <span class="empty-state__icon" aria-hidden="true">🕯</span>
+        <h2>Список материалов пуст</h2>
+        <p>
+            В базе данных пока нет ни одного материала. Нажмите кнопку
+            «Добавить материал», чтобы создать первую запись.
+        </p>
+        <a asp-action="Create" class="btn btn--accent">+ Добавить материал</a>
+    </section>
+}
+else
+{
+    <div class="material-grid">
+        @foreach (var material in Model)
+        {
+            <article class="material-card">
+                @* Переход на форму редактирования по нажатию на карточку. *@
+                <a class="material-card__main"
+                   asp-action="Edit"
+                   asp-route-id="@material.MaterialId"
+                   title="Открыть материал «@material.Name» для редактирования">
+                    <div class="material-card__head">
+                        <span class="type-badge">@material.TypeName</span>
+                        <h2 class="material-card__name">@material.Name</h2>
+                    </div>
+
+                    <dl class="material-card__info">
+                        <div>
+                            <dt>Минимальное количество</dt>
+                            <dd>@DisplayFormat.Quantity(material.MinQuantity) @material.Unit</dd>
+                        </div>
+                        <div>
+                            <dt>Количество на складе</dt>
+                            <dd>@DisplayFormat.Quantity(material.StockQuantity) @material.Unit</dd>
+                        </div>
+                        <div>
+                            <dt>Цена</dt>
+                            <dd>@DisplayFormat.Number(material.Price) ₽ / @material.Unit</dd>
+                        </div>
+                    </dl>
+
+                    <div class="material-card__required">
+                        <span>Требуемое количество</span>
+                        <strong>@DisplayFormat.Quantity(material.RequiredQuantity) @material.Unit</strong>
+                    </div>
+                </a>
+
+                <div class="material-card__actions">
+                    <a class="btn btn--outline"
+                       asp-action="Edit"
+                       asp-route-id="@material.MaterialId">
+                        Редактировать
+                    </a>
+                    <a class="btn btn--accent"
+                       asp-action="Products"
+                       asp-route-id="@material.MaterialId">
+                        Продукция →
+                    </a>
+                </div>
+            </article>
+        }
+    </div>
+}

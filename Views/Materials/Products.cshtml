@@ -1,0 +1,71 @@
+﻿@model AromaDom.ViewModels.MaterialProductsViewModel
+
+@{
+    ViewData["Title"] = "Продукция материала";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Продукция</h1>
+        <p class="page-subtitle">
+            Материал: <strong>@Model.MaterialName</strong>
+        </p>
+    </div>
+
+    <a asp-action="Index" class="btn btn--outline">← Назад к материалам</a>
+</div>
+
+<section class="panel">
+    <h2 class="panel__title">Продукция, в рецептуре которой используется материал</h2>
+
+    @if (Model.Products.Count == 0)
+    {
+        <div class="empty-state empty-state--compact">
+            <span class="empty-state__icon" aria-hidden="true">ℹ</span>
+            <h3>Материал не используется в продукции</h3>
+            <p>
+                Для материала «@Model.MaterialName» ещё не задана ни одна рецептура.
+                Проверьте справочник продукции или обратитесь к технологу.
+            </p>
+        </div>
+    }
+    else
+    {
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Наименование продукции</th>
+                        <th scope="col">Артикул</th>
+                        <th scope="col" class="text-right">Необходимое количество материала</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model.Products)
+                    {
+                        <tr>
+                            <td>@product.ProductName</td>
+                            <td>@product.Article</td>
+                            <td class="text-right">
+                                @DisplayFormat.Quantity(product.RequiredQuantity) @Model.Unit
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">Итого по всем рецептурам</td>
+                        <td class="text-right">
+                            @DisplayFormat.Quantity(Model.TotalQuantity) @Model.Unit
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <p class="panel__note">
+            Требуемое количество материала рассчитано как сумма объёма материала,
+            используемого при производстве всех видов продукции.
+        </p>
+    }
+</section>
